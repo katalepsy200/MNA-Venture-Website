@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
@@ -8,6 +8,7 @@ import PremiumChoiceSection from './components/PremiumChoiceSection';
 import PortfolioSection from './components/PortfolioSection';
 import ReadyToStartSection from './components/ReadyToStartSection';
 import ComingSoon from './components/ComingSoon';
+import Loader from './components/Loader';
 
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -28,6 +29,16 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // const handleLoadingComplete = () => {
+  //   setIsLoading(false);
+  // };
+
+  // if (isLoading) {
+  //   return <Loader onLoadingComplete={handleLoadingComplete} />;
+  // }
+
   return (
     <div className="App">
       <GlobalStyle />
@@ -38,7 +49,6 @@ function App() {
           <>
             <MainSection />
             <MissionVisionGoalsSection />
-            {/* <ContainerSection /> */}
             <PopularProductsSection />
             <PremiumChoiceSection />
             <Testimonials />

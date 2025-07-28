@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import mnaLogo from '../assets/MNA-Ventures-Logo-Design.png';
 
@@ -20,7 +20,6 @@ import asd from '../assets/Portfolio/asd-e1724584733700-7b03f243.png';
 
 // Portfolio logos using local images
 const logos = [
-  mnaLogo,
   otcPartBlue,
   regulateLogo,
   portfolio5,
@@ -277,104 +276,83 @@ const PortfolioSubtitle = styled.p`
   }
 `;
 
-const scroll = keyframes`
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-`;
-
 const CarouselWrapper = styled.div`
   width: 100%;
   overflow: hidden;
-  position: relative;
+  background: white;
+  border-radius: 20px;
   padding: 40px 0;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.1);
-  border: 1px solid rgba(102, 126, 234, 0.05);
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
-  }
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 `;
 
-const CarouselTrack = styled.div`
+const CarouselContent = styled.div`
   display: flex;
-  align-items: center;
-  gap: 100px;
-  animation: ${scroll} 40s linear infinite;
-  will-change: transform;
+  animation: slide 15s linear infinite;
+  
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
   
   &:hover {
     animation-play-state: paused;
   }
+`;
+
+const LogoItem = styled.div`
+  flex-shrink: 0;
+  margin: 0 40px;
   
-  @media (max-width: 768px) {
-    gap: 60px;
-    animation-duration: 30s;
+  img {
+    height: 60px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    filter: grayscale(0.3);
+    transition: filter 0.3s ease;
+    
+    &:hover {
+      filter: grayscale(0);
+    }
   }
 `;
 
-
-
-const LogoImg = styled.img`
-  height: 80px;
+const LazyImage = styled.img`
+  height: 60px;
   width: auto;
   max-width: 120px;
   object-fit: contain;
-  filter: grayscale(0.3) brightness(0.9);
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  filter: grayscale(0.3);
+  transition: filter 0.3s ease;
   
   &:hover {
-    filter: grayscale(0) brightness(1.1);
-    opacity: 1;
-    transform: scale(1.1);
+    filter: grayscale(0);
   }
+`;
+
+const ImagePlaceholder = styled.div`
+  height: 60px;
+  width: 120px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
   
-  @media (max-width: 768px) {
-    height: 60px;
-    max-width: 100px;
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 `;
-
-const CarouselGradient = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, 
-    rgba(255,255,255,1) 0%, 
-    rgba(255,255,255,0) 10%, 
-    rgba(255,255,255,0) 90%, 
-    rgba(255,255,255,1) 100%
-  );
-  pointer-events: none;
-  z-index: 2;
-`;
-
-
 
 const PortfolioSection: React.FC = () => {
-  // Duplicate logos for seamless infinite scroll
-  const allLogos = [...logos, ...logos];
-  
   const roadmapSteps = [
     {
       step: "01",
@@ -395,6 +373,55 @@ const PortfolioSection: React.FC = () => {
       description: "We provide unquantifiable expertise, helping teams reach the correct decisions in the minimum amount of time."
     }
   ];
+  
+  // Create duplicated array for seamless infinite scroll
+  const duplicatedLogos = [...logos, ...logos, ...logos, ...logos, ...logos, ...logos, ...logos, ...logos];
+  
+  // Lazy Image Component
+  const LazyImageComponent: React.FC<{ src: string; alt: string; index: number }> = ({ src, alt, index }) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isInView, setIsInView] = useState(false);
+    const imgRef = useRef<HTMLImageElement>(null);
+    
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            observer.disconnect();
+          }
+        },
+        {
+          rootMargin: '50px', // Start loading 50px before the image comes into view
+          threshold: 0.1
+        }
+      );
+      
+      if (imgRef.current) {
+        observer.observe(imgRef.current);
+      }
+      
+      return () => observer.disconnect();
+    }, []);
+    
+    const handleLoad = () => {
+      setIsLoaded(true);
+    };
+    
+    return (
+      <LogoItem ref={imgRef}>
+        {!isLoaded && isInView && <ImagePlaceholder />}
+        {isInView && (
+          <LazyImage
+            src={src}
+            alt={alt}
+            onLoad={handleLoad}
+            style={{ opacity: isLoaded ? 1 : 0 }}
+          />
+        )}
+      </LogoItem>
+    );
+  };
   
   return (
     <Section id="portfolio">
@@ -430,15 +457,17 @@ const PortfolioSection: React.FC = () => {
         </PortfolioSubtitle>
         
         <CarouselWrapper>
-          <CarouselTrack>
-            {allLogos.map((src, idx) => (
-              <LogoImg key={idx} src={src} alt={`Portfolio logo ${idx + 1}`} />
+          <CarouselContent>
+            {duplicatedLogos.map((src, idx) => (
+              <LazyImageComponent 
+                key={idx} 
+                src={src} 
+                alt={`Portfolio logo ${idx + 1}`} 
+                index={idx}
+              />
             ))}
-          </CarouselTrack>
-          <CarouselGradient />
+          </CarouselContent>
         </CarouselWrapper>
-
-
       </Container>
     </Section>
   );

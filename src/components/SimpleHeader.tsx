@@ -8,7 +8,7 @@ const HeaderBar = styled.header<{scrolled?: boolean}>`
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 80px;
   background: ${({scrolled}) => scrolled ? 'rgba(34, 31, 28, 0.95)' : 'transparent'};
   backdrop-filter: ${({scrolled}) => scrolled ? 'blur(20px)' : 'none'};
   z-index: 100;
@@ -22,20 +22,20 @@ const HeaderBar = styled.header<{scrolled?: boolean}>`
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
   @media (max-width: 900px) {
-    height: 50px;
+    height: 70px;
   }
 `;
 
 const HeaderContainer = styled.div`
   width: 100%;
   max-width: 1400px;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   padding: 0 30px;
   box-sizing: border-box;
   @media (max-width: 900px) {
-    height: 50px;
+    height: 70px;
     padding: 0 12px;
   }
 `;
@@ -43,12 +43,12 @@ const HeaderContainer = styled.div`
 const Logo = styled.div`
   display: flex;
   align-items: center;
-  height: 35px;
+  height: 70px;
   user-select: none;
   margin-right: auto;
   font-family: 'Satoshi', 'Inter', 'Segoe UI', Arial, sans-serif;
   img {
-    height: 35px;
+    height: 70px;
     transition: all 0.3s ease;
     filter: brightness(1.1) contrast(1.1);
   }
@@ -58,9 +58,9 @@ const Logo = styled.div`
   }
   
   @media (max-width: 900px) {
-    height: 30px;
+    height: 60px;
     img {
-      height: 30px;
+      height: 60px;
     }
   }
 `;
@@ -68,7 +68,7 @@ const Logo = styled.div`
 const Nav = styled.nav`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
   font-family: 'Satoshi', 'Inter', 'Segoe UI', Arial, sans-serif;
   @media (max-width: 900px) {
     display: none;
@@ -76,12 +76,12 @@ const Nav = styled.nav`
 `;
 
 const NavLink = styled.a`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #fff;
   text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
   position: relative;
   font-family: inherit;
   letter-spacing: 0.02em;
@@ -96,7 +96,7 @@ const NavLink = styled.a`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(226,203,179,0.1) 0%, rgba(191,160,116,0.1) 100%);
+    background: linear-gradient(135deg, rgba(226,203,179,0.15) 0%, rgba(191,160,116,0.15) 100%);
     border-radius: 12px;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -108,7 +108,7 @@ const NavLink = styled.a`
     left: 16px;
     right: 16px;
     bottom: 8px;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg, #e2cbb3 0%, #bfa074 100%);
     border-radius: 1px;
     transform: scaleX(0);
@@ -118,7 +118,7 @@ const NavLink = styled.a`
   
   &:hover, &:focus {
     color: #e2cbb3;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     &::before {
       opacity: 1;
     }
@@ -142,17 +142,17 @@ const NavLink = styled.a`
 const SignUpButton = styled.button`
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 8px 16px;
-  margin-left: 8px;
-  border-radius: 25px;
+  gap: 6px;
+  padding: 12px 24px;
+  margin-left: 12px;
+  border-radius: 30px;
   background: linear-gradient(135deg, #e2cbb3 0%, #bfa074 100%);
   color: #221f1c;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   text-decoration: none;
   letter-spacing: 0.02em;
-  box-shadow: 0 4px 16px 0 rgba(226,203,179,0.3);
+  box-shadow: 0 6px 20px 0 rgba(226,203,179,0.3);
   border: none;
   transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
   font-family: inherit;
@@ -174,8 +174,8 @@ const SignUpButton = styled.button`
   &:hover {
     background: linear-gradient(135deg, #bfa074 0%, #e2cbb3 100%);
     color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px 0 rgba(226,203,179,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px 0 rgba(226,203,179,0.4);
     &::before {
       left: 100%;
     }
@@ -284,7 +284,7 @@ const MobileMenuHeader = styled.div`
 `;
 
 const MobileLogo = styled.img`
-  height: 28px;
+  height: 50px;
   margin-right: 6px;
 `;
 
@@ -314,11 +314,11 @@ const MobileNav = styled.div`
 `;
 
 const MobileNavLink = styled.a`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: #221f1c;
   text-decoration: none;
-  padding: 8px 0;
+  padding: 12px 0;
   width: 100%;
   border-bottom: 1px solid rgba(34,31,28,0.08);
   border-radius: 4px;
@@ -332,7 +332,7 @@ const MobileNavLink = styled.a`
     left: 0;
     right: 0;
     bottom: 2px;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg, #221f1c 0%, #bfa074 100%);
     border-radius: 2px;
     transform: scaleX(0);
@@ -355,11 +355,11 @@ const MobileSignUpButton = styled.a`
   display: block;
   width: 100%;
   margin: 20px 0 0 0;
-  padding: 10px 0;
+  padding: 14px 0;
   border-radius: 999px;
   background: #221f1c;
   color: #e2cbb3;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   text-align: center;
   text-decoration: none;
